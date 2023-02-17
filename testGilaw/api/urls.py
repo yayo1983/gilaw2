@@ -17,5 +17,7 @@ from django.urls import path
 from .views import *
 
 urlpatterns = [
-    path('api/', NotificationView.as_view()),
+    path('', NotificationView.getLogs, name='view_default'),
+    path('message/logs', NotificationView.getLogs, name='view_message'),
+    path('message/submission', NotificationView.submissionMessage, name='submission_message'),
 ]

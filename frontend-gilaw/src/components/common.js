@@ -19,13 +19,13 @@ function getCookie(name) {
     return cookieValue;
 }
 
-const endPoint = "http://localhost:8000/trackings/";
+const endPoint = "http://localhost:8000/api/";
+
+axios.defaults.headers.common['X-CSRFToken'] = getCookie('csrftoken');
 
 export const get = async (url, data = null) => {
   return await axios.get(endPoint + url, data ? { params: data } : null);
 };
-
-axios.defaults.headers.common['X-CSRFToken'] = getCookie('csrftoken');
 
 export const post = async (url, data) => {
   return await axios.post(endPoint + url, data);
