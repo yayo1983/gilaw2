@@ -1,38 +1,36 @@
-from rest_framework.response import Response
+from rest_framework import status
 from rest_framework.views import APIView
-from rest_framework import status, generics
-from .models import Notification, SMSNotification
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
 from .serializers import NotificationSerializer
 from django.views.decorators.csrf import csrf_exempt
-from rest_framework.decorators import api_view, renderer_classes
+from .models import Notification
 
 class NotificationView(APIView):
-    
-    @api_view(('POST',))
+
+    @api_view(('GET',))
     @csrf_exempt
     def getLogs(request):
         try:
             notifications = Notification.objects.all()
             if notifications:
                 serializer = NotificationSerializer(notifications, many=True)
-                return Response(serializer.data, status=status.HTTP_200_OK)
+                return Response({"status": "success", "data": serializer.data}, status=status.HTTP_200_OK)
             else:
-                Response(status=status.HTTP_404_NOT_FOUND)
+                Response({"status": "fail", "message": 'Not found notifications'}, status=status.HTTP_404_NOT_FOUND)
         except:
             return Response({"status": "fail", "message": 'Error in the request'}, status=status.HTTP_400_BAD_REQUEST)
+
     
     @api_view(('POST',))
-    @csrf_exempt   
-    def submissionMessage(self, request):
-        serializer = self.serializer_class(data=request.data)
-        try:
-            if serializer.is_valid():
-                serializer.save()
-                return Response({"status": "success", "notification": serializer.data}, status=status.HTTP_201_CREATED)
-            else:
-                return Response({"status": "fail", "message": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
-        except:
-            return Response({"status": "fail", "message": 'Error in the request'}, status=status.HTTP_400_BAD_REQUEST)
-
-
-        
+    @csrf_exempt
+    # pass de any user: user123qwe
+    def submissionMessage(request):
+        if (request.POST.get('message', False) and request.POST.get('category', False)):
+                serializer = NotificationSerializer()
+                result = serializer.save_notification(request.POST.get('message', False), request.POST.get('category', False))
+                if result:
+                    return Response({"status": "success"}, status=status.HTTP_201_CREATED)
+                return Response({"status": "fail", "message": 'Error saving the notification'}, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response({"status": "fail", "message": request.POST.get('message')}, status=status.HTTP_406_NOT_ACCEPTABLE)

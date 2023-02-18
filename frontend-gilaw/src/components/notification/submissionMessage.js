@@ -13,9 +13,9 @@ const SubmissionMessage = () => {
   const [errorCategory, setErrorCategory] = useState(false);
   const [errorMessage, setErrorMessage] = useState(false);
   const categories = [
-    { name: "Sports", code: "S" },
-    { name: "Finance", code: "F" },
-    { name: "Movies", code: "M" },
+    { name: "Sports", code: "Sports" },
+    { name: "Finance", code: "Finance" },
+    { name: "Movies", code: "Movies" },
   ];
 
   const clearForm = (message) => {
@@ -55,13 +55,13 @@ const SubmissionMessage = () => {
       setErrorMessage(false);
       if (validateCategoryInput() && validateMessageInput()) {
         let data = {
-          category: category,
+          category: category.code,
           message: message,
         };
-        let response = await post("message/submission", data);
+        let response = await post("api/message/submission", data);
         response = JSON.stringify(response);
-        if (response.status !== 200) {
-          showToast("error", "Error", "Error sending the message");
+        if (response.status === 'fail') {
+          showToast("error", "Error", response.message);
         } else {
           clearForm("The message has been sent successfully");
         }

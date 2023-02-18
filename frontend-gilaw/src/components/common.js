@@ -2,6 +2,10 @@ import axios from "axios";
 
 axios.defaults.xsrfCookieName = "csrftoken";
 axios.defaults.xsrfHeaderName = "X_CSRFToken";
+axios.defaults.headers.common['X-CSRFToken'] = getCookie('csrftoken');
+
+const endPoint = "http://localhost:8000/";
+
 
 function getCookie(name) {
     let cookieValue = null;
@@ -19,16 +23,15 @@ function getCookie(name) {
     return cookieValue;
 }
 
-const endPoint = "http://localhost:8000/api/";
-
-axios.defaults.headers.common['X-CSRFToken'] = getCookie('csrftoken');
-
 export const get = async (url, data = null) => {
   return await axios.get(endPoint + url, data ? { params: data } : null);
 };
 
 export const post = async (url, data) => {
-  return await axios.post(endPoint + url, data);
+  return await axios.post(endPoint + url, data, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    }});
 };
 
 export const put = async (url, data) => {

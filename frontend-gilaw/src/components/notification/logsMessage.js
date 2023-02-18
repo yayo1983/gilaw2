@@ -1,4 +1,4 @@
-import { post } from "../common";
+import { get } from "../common";
 import { Toast } from "primereact/toast";
 import { Column } from "primereact/column";
 import React, { useState, useEffect, useRef } from "react";
@@ -19,12 +19,14 @@ const LogsMessage = () => {
 
   const getLogsMessage = async () => {
     try {
-      let response = await post("message/logs");
-      response = JSON.stringify(response);
-      if (response.status !== 200) {
+      let response = await get("api/message/logs");
+      // response = JSON.stringify(response);
+      console.log(response.data.data);
+      if (response.data.status === "fail") {
         showToast("error", "Error", "Error in the request of the logs message");
-      } 
-      setLogsMessage(response);
+      } else {
+        setLogsMessage(response.data.data);
+      }
     } catch (error) {
       console.log(error);
       setLogsMessage([]);
@@ -39,7 +41,7 @@ const LogsMessage = () => {
 
   return (
     <>
-     <Toast ref={toast} />
+      <Toast ref={toast} />
       <div className="row">
         <div className="col-sm-4"></div>
         <div className="col-sm-4">
@@ -52,9 +54,7 @@ const LogsMessage = () => {
         <div className="col-sm-4"></div>
         <div className="col-sm-6">
           <DataTable value={logsMessage} responsiveLayout="scroll">
-            <Column field="category" header="Category"></Column>
-            <Column field="message" header="Message"></Column>
-            <Column field="date" header="Date"></Column>
+            <Column field="created_at" header="Date"></Column>
             <Column field="user" header="Name of the user"></Column>
           </DataTable>
         </div>
