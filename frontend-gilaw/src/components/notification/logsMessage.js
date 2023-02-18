@@ -1,4 +1,4 @@
-import { get } from "../common";
+import { get, formatD } from "../common";
 import { Toast } from "primereact/toast";
 import { Column } from "primereact/column";
 import React, { useState, useEffect, useRef } from "react";
@@ -54,7 +54,15 @@ const LogsMessage = () => {
         <div className="col-sm-4"></div>
         <div className="col-sm-6">
           <DataTable value={logsMessage} responsiveLayout="scroll">
-            <Column field="created_at" header="Date"></Column>
+            <Column
+              field="created_at"
+              header="Date"
+              body={(notification) =>
+                notification.created_at != null
+                  ? formatD(notification.created_at)
+                  : ""
+              }
+            ></Column>
             <Column field="user" header="Name of the user"></Column>
           </DataTable>
         </div>

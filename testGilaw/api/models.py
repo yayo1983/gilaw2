@@ -54,6 +54,14 @@ class Notification(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
 
+    @property
+    def full_name_user(self):
+        return self.user.first_name + ' ' + self.user.last_name
+    
+    @property
+    def notifications(self):
+        return self.content_type
+
 class SMSNotification(models.Model):
     message = models.TextField(null=False, verbose_name="message")
     category = models.CharField(

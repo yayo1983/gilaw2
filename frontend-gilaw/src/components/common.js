@@ -1,10 +1,11 @@
 import axios from "axios";
+import dateFormat from "dateformat";
 
 axios.defaults.xsrfCookieName = "csrftoken";
 axios.defaults.xsrfHeaderName = "X_CSRFToken";
 axios.defaults.headers.common['X-CSRFToken'] = getCookie('csrftoken');
 
-const endPoint = "http://localhost:8000/";
+  const endPoint = "http://localhost:8000/";
 
 
 function getCookie(name) {
@@ -21,6 +22,10 @@ function getCookie(name) {
         }
     }
     return cookieValue;
+}
+
+export const formatD = (date) =>{
+  return dateFormat(date, "dd/mm/yyyy");
 }
 
 export const get = async (url, data = null) => {

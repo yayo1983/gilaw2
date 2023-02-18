@@ -12,12 +12,14 @@ class NotificationView(APIView):
     @csrf_exempt
     def getLogs(request):
         try:
-            notifications = Notification.objects.all()
-            if notifications:
+            notifications = Notification.objects.all().order_by('created_at')
+            if notifications and len(notifications) > 0:
                 serializer = NotificationSerializer(notifications, many=True)
                 return Response({"status": "success", "data": serializer.data}, status=status.HTTP_200_OK)
             else:
-                Response({"status": "fail", "message": 'Not found notifications'}, status=status.HTTP_404_NOT_FOUND)
+                Response({"status": "success", "data": []}, status=status.HTTP_200_OK)
+        except Notification.DoesNotExist:
+            Response({"status": "success", "data": []}, status=status.HTTP_200_OK)
         except:
             return Response({"status": "fail", "message": 'Error in the request'}, status=status.HTTP_400_BAD_REQUEST)
 
