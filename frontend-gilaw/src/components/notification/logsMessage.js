@@ -21,14 +21,12 @@ const LogsMessage = () => {
     try {
       let response = await get("api/message/logs");
       // response = JSON.stringify(response);
-      console.log(response.data.data);
       if (response.data.status === "fail") {
         showToast("error", "Error", "Error in the request of the logs message");
       } else {
         setLogsMessage(response.data.data);
       }
     } catch (error) {
-      console.log(error);
       setLogsMessage([]);
       showToast("error", "Error", "Error in the request");
     }
@@ -63,7 +61,9 @@ const LogsMessage = () => {
                   : ""
               }
             ></Column>
-            <Column field="user" header="Name of the user"></Column>
+            <Column field="full_name_user" header="Name of the user"></Column>
+            <Column field="category" header="category"></Column>
+            <Column field="message" header="message"></Column>
           </DataTable>
         </div>
         <div className="col-sm-4"></div>

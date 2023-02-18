@@ -1,8 +1,6 @@
 from users.models import User
 from abc import ABC, abstractmethod
-
 from .models import SMSNotification, EmailNotification, PushNotification
-
 
 class AbstractFactoryModel(ABC):
 
@@ -32,8 +30,8 @@ class FactoryModel(AbstractFactoryModel):
     
     def create_notification(self, category):
         if category is 'Finance':
-            return User.objects.get(username='yasserfinance'), self.create_email_notification_model()
+            return User.objects.filter(pk=3).first(), self.create_email_notification_model()
         elif category is 'Movies':
-            return User.objects.get(username='yassermovies'), self.create_push_notification_model()
+            return User.objects.filter(pk=4).first(), self.create_push_notification_model()
         else:
-            return User.objects.get(username='yassersport'), self.create_sms_notification_model()
+            return User.objects.filter(pk=2).first(), self.create_sms_notification_model()

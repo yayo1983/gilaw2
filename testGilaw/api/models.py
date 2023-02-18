@@ -59,9 +59,13 @@ class Notification(models.Model):
         return self.user.first_name + ' ' + self.user.last_name
     
     @property
-    def notifications(self):
-        return self.content_type
+    def message(self):
+        return self.content_object.message
 
+    @property
+    def category(self):
+        return self.content_object.category
+    
 class SMSNotification(models.Model):
     message = models.TextField(null=False, verbose_name="message")
     category = models.CharField(
@@ -70,10 +74,9 @@ class SMSNotification(models.Model):
         default=Category.get_value('sports'))
     created_at = models.DateTimeField(auto_now_add=True)
     notifications = GenericRelation(Notification)
-   # usern = models.ForeignKey(UserNotification, on_delete=models.CASCADE)
 
-    def __str__(self):
-        return self.message
+    # def __str__(self):
+    #     return self.message
 
 
 class EmailNotification(models.Model):
@@ -84,7 +87,6 @@ class EmailNotification(models.Model):
         default=Category.get_value('sports'))
     created_at = models.DateTimeField(auto_now_add=True)
     notifications = GenericRelation(Notification)
-    # usern = models.ForeignKey(UserNotification, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.message
@@ -98,13 +100,6 @@ class PushNotification(models.Model):
         default=Category.get_value('sports'))
     created_at = models.DateTimeField(auto_now_add=True)
     notifications = GenericRelation(Notification)
-    # usern = models.ForeignKey(UserNotification, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.message
-
-
-  
-# class TypeNUser(models.Model):
-#     usern = models.ForeignKey(UserNotification, on_delete = models.CASCADE, related_name = "type")
-#     typen = models.ForeignKey(TypeN, on_delete = models.CASCADE, related_name = "usernotification")
