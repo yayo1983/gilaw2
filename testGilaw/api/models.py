@@ -1,6 +1,6 @@
 from enum import Enum
 from django.db import models
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericRelation
 from django.contrib.contenttypes.fields import GenericForeignKey
@@ -19,7 +19,7 @@ class Category(Enum):
     def get_value(cls, member):
         return cls[member].value[0]
     
-    
+
 class TypeNotification(Enum):
     sms = ('SMS', 'SMS')
     email = ('Email', 'Email ')
@@ -68,6 +68,16 @@ class Notification(models.Model):
         return self.message
 
 
+# class UserNotification(models.Model):
+#     # user = models.OneToOneField(User, on_delete=models.CASCADE)
+#     phone = models.IntegerField(null=False, blank=True, verbose_name="Phone")
+#     name = models.CharField(max_length=250, null=False,
+#                             blank=True, verbose_name="name")
+#     channels = models.ForeignKey(Notification, on_delete=models.CASCADE)
+#     subscribed = models.CharField(max_length=50, choices=[
+#         x.value for x in Category], default=Category.get_value('sports'))
+    
+
 class SMSNotification(models.Model):
     message = models.TextField(null=False, verbose_name="message")
     category = models.CharField(
@@ -75,7 +85,8 @@ class SMSNotification(models.Model):
         choices=[x.value for x in Category],
         default=Category.get_value('sports'))
     created_at = models.DateTimeField(auto_now_add=True)
-    notification = GenericRelation(Notification)
+    notifications = GenericRelation(Notification)
+   # usern = models.ForeignKey(UserNotification, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.message
@@ -88,7 +99,8 @@ class EmailNotification(models.Model):
         choices=[x.value for x in Category],
         default=Category.get_value('sports'))
     created_at = models.DateTimeField(auto_now_add=True)
-    notification = GenericRelation(Notification)
+    notifications = GenericRelation(Notification)
+    # usern = models.ForeignKey(UserNotification, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.message
@@ -101,23 +113,14 @@ class PushNotification(models.Model):
         choices=[x.value for x in Category],
         default=Category.get_value('sports'))
     created_at = models.DateTimeField(auto_now_add=True)
-    notification = GenericRelation(Notification)
+    notifications = GenericRelation(Notification)
+    # usern = models.ForeignKey(UserNotification, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.message
 
 
-class UserNotification(models.Model):
-
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    phone = models.IntegerField(null=False, blank=True, verbose_name="Phone")
-    name = models.CharField(max_length=250, null=False,
-                            blank=True, verbose_name="name")
-    channels = models.ForeignKey(Notification, on_delete=models.CASCADE)
-    subscribed = models.CharField(max_length=50, choices=[
-        x.value for x in Category], default=Category.get_value('sports'))
-   
-    
-class TypeNUser(models.Model):
-    usern = models.ForeignKey(UserNotification, on_delete = models.CASCADE, related_name = "type")
-    typen = models.ForeignKey(TypeN, on_delete = models.CASCADE, related_name = "usernotification")
+  
+# class TypeNUser(models.Model):
+#     usern = models.ForeignKey(UserNotification, on_delete = models.CASCADE, related_name = "type")
+#     typen = models.ForeignKey(TypeN, on_delete = models.CASCADE, related_name = "usernotification")

@@ -1,20 +1,27 @@
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status, generics
-from .models import Notification
+from .models import Notification, SMSNotification
 from .serializers import NotificationSerializer
 from django.views.decorators.csrf import csrf_exempt
+from rest_framework.decorators import api_view, renderer_classes
 
-class NotificationView(generics.GenericAPIView):
+class NotificationView(APIView):
+    
+    @api_view(('POST',))
     @csrf_exempt
-    def getLogs(self, request):
+    def getLogs(request):
         try:
-            notification = Notification.objects.all()
-            serializer = NotificationSerializer(notification, many=True)
-            return Response(serializer.data, status=status.HTTP_200_OK)
+            notifications = Notification.objects.all()
+            if notifications:
+                serializer = NotificationSerializer(notifications, many=True)
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            else:
+                Response(status=status.HTTP_404_NOT_FOUND)
         except:
             return Response({"status": "fail", "message": 'Error in the request'}, status=status.HTTP_400_BAD_REQUEST)
     
+    @api_view(('POST',))
     @csrf_exempt   
     def submissionMessage(self, request):
         serializer = self.serializer_class(data=request.data)
