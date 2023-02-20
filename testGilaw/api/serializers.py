@@ -6,7 +6,7 @@ from .abstract_factory_model import FactoryModel
 class NotificationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Notification
-        fields = ('id', 'full_name_user', 'message', 'created_at', 'category')
+        fields = ('id', 'full_name_user', 'message', 'created_at', 'category', 'email', 'phone')
 
     @transaction.atomic()
     def save_notification(self, message, category):

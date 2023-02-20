@@ -50,7 +50,7 @@ const LogsMessage = () => {
       <br />
       <div className="row">
         <div className="col-sm-4"></div>
-        <div className="col-sm-6">
+        <div className="col-sm-8">
           <DataTable value={logsMessage} responsiveLayout="scroll">
             <Column
               field="created_at"
@@ -62,8 +62,10 @@ const LogsMessage = () => {
               }
             ></Column>
             <Column field="full_name_user" header="Name of the user"></Column>
-            <Column field="category" header="category"></Column>
-            <Column field="message" header="message"></Column>
+            <Column field="email" header="Email"></Column>
+            <Column field="phone" header="Phone"></Column>
+            <Column field="category" header="Category"></Column>
+            <Column field="message" header="Message"></Column>
           </DataTable>
         </div>
         <div className="col-sm-4"></div>

@@ -33,5 +33,7 @@ class FactoryModel(AbstractFactoryModel):
             return User.objects.filter(pk=3).first(), self.create_email_notification_model()
         elif category is 'Movies':
             return User.objects.filter(pk=4).first(), self.create_push_notification_model()
-        else:
+        elif category is 'Sports':
             return User.objects.filter(pk=2).first(), self.create_sms_notification_model()
+        else:
+            return User.objects.filter(pk=1).first(), self.create_sms_notification_model()

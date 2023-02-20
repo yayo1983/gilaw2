@@ -25,7 +25,7 @@ function getCookie(name) {
 }
 
 export const formatD = (date) =>{
-  return dateFormat(date, "dd/mm/yyyy");
+  return dateFormat(date, "dd/mm/yyyy hh:mm:ss");
 }
 
 export const get = async (url, data = null) => {
