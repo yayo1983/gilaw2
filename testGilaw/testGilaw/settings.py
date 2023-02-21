@@ -60,7 +60,12 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'api',
     'users',
+    'graphene_django',
 ]
+
+GRAPHENE = {
+    'SCHEMA': 'api.schema.schema'
+}
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware', 
