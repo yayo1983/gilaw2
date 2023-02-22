@@ -49,7 +49,7 @@ const LogsMessage = () => {
       </div>
       <br />
       <div className="row">
-        <div className="col-sm-4"></div>
+        <div className="col-sm-2  "></div>
         <div className="col-sm-8">
           <DataTable value={logsMessage} responsiveLayout="scroll">
             <Column

@@ -43,7 +43,7 @@ const LogsMessageG = () => {
       </div>
       <br />
       <div className="row">
-        <div className="col-sm-4"></div>
+        <div className="col-sm-2"></div>
         <div className="col-sm-8">
         {data && data.allLogs && <DataTable value={data.allLogs} responsiveLayout="scroll">
             <Column
