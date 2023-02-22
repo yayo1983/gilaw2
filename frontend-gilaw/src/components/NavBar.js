@@ -24,12 +24,17 @@ const NavBar = () => {
                 </li>
                 <li className="nav-item">
                   <Link className="nav-link" to="/message/submission">
-                    Submission message
+                    Submission message API REST
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/message/submissionG">
+                    Submission message with GraphQL
                   </Link>
                 </li>
                 <li className="nav-item">
                   <Link className="nav-link" to="/message/logs">
-                    Log history
+                    Log history API REST
                   </Link>
                 </li>
                 <li className="nav-item">

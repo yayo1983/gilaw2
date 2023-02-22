@@ -37,7 +37,7 @@ const LogsMessageG = () => {
       <div className="row">
         <div className="col-sm-4"></div>
         <div className="col-sm-4">
-          <h2>Log history </h2>
+          <h2>Log history by GraphQL </h2>
         </div>
         <div className="col-sm-4"></div>
       </div>
