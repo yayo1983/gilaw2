@@ -42,6 +42,8 @@ REST_FRAMEWORK = {
    )
 }
 
+CORS_ORIGIN_ALLOW_ALL = True
+
 #Extend the model User of Django
 AUTH_USER_MODEL = 'users.User'
 

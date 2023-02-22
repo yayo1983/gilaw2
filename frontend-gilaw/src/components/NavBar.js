@@ -32,6 +32,11 @@ const NavBar = () => {
                     Log history
                   </Link>
                 </li>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/message/logs2">
+                    Log history with GraphQL
+                  </Link>
+                </li>
               </ul>
             </div>
           </div>
