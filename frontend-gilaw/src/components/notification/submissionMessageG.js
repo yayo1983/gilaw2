@@ -1,4 +1,3 @@
-import { post } from "../common";
 import { Toast } from "primereact/toast";
 import { Panel } from "primereact/panel";
 import { Button } from "primereact/button";
@@ -30,7 +29,7 @@ const SubmissionMessageG = () => {
     { name: "Movies", code: "Movies" },
   ];
 
-  const [createNotification, { data, loading, error }] =
+  const [createNotification, { loading, error }] =
     useMutation(CREATE_NOTIFICATION);
 
   const clearForm = (message) => {
@@ -79,25 +78,6 @@ const SubmissionMessageG = () => {
         if (!error && !loading) {
           clearForm("The message has been sent successfully");
         }
-
-        /* if (response.status === "fail") {
-          showToast("error", "Error", response.message);
-        } else {
-          clearForm("The message has been sent successfully");
-        }
-      } else {
-        if (!validateCategoryInput()) {
-          setErrorCategory(true);
-          showToast("error", "Error", "The category input need selected");
-        }
-        if (!validateMessageInput()) {
-          setErrorMessage(true);
-          showToast(
-            "error",
-            "Error",
-            "The input text of the message must  can be filled in the form"
-          );
-        }*/
       }
     } catch (error) {
       console.log(error);
@@ -120,7 +100,7 @@ const SubmissionMessageG = () => {
       </div>
 
       <div className="row">
-        <div className="col-sm-4"></div>
+        <div className="col-sm-2"></div>
         <div className="col-sm-8">
           <Panel header="Submission form">
             <div className="mb-3">

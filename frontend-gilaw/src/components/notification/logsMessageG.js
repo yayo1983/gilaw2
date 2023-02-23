@@ -1,7 +1,6 @@
 import { formatD } from "../common";
-import { Toast } from "primereact/toast";
 import { Column } from "primereact/column";
-import React, { useRef } from "react";
+import React from "react";
 import { DataTable } from "primereact/datatable";
 import { gql, useQuery } from "@apollo/client";
 
@@ -19,21 +18,10 @@ const GET_DATA = gql`
 `;
 
 const LogsMessageG = () => {
-  const toast = useRef(null);
-  const { loading, error, data } = useQuery(GET_DATA);
-
-  const showToast = (severity, summary, detail) => {
-    toast.current.show({
-      severity: severity,
-      summary: summary,
-      detail: detail,
-      life: 3000,
-    });
-  };
+  const { data } = useQuery(GET_DATA);
 
   return (
     <>
-      <Toast ref={toast} />
       <div className="row">
         <div className="col-sm-4"></div>
         <div className="col-sm-4">

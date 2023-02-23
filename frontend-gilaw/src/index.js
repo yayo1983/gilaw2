@@ -1,12 +1,10 @@
+import App from "./App";
 import React from "react";
+import store from "./store/index";
+import { Provider } from 'react-redux';
 import ReactDOM from "react-dom/client";
 import reportWebVitals from "./reportWebVitals";
-import App from "./App";
-import {
-  ApolloClient,
-  InMemoryCache,
-  ApolloProvider,
-} from "@apollo/client";
+import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./index.css";
@@ -24,9 +22,11 @@ const client = new ApolloClient({
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <ApolloProvider client={client}>
-    <App />
-  </ApolloProvider>
+  <Provider store={store}>
+    <ApolloProvider client={client}>
+      <App />
+    </ApolloProvider>
+  </Provider>
 );
 
 // If you want to start measuring performance in your app, pass a function

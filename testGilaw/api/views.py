@@ -38,4 +38,4 @@ class NotificationView(APIView):
                 return Response({"status": "success"}, status=status.HTTP_201_CREATED)
             return Response({"status": "fail", "message": 'Error saving the notification'}, status=status.HTTP_400_BAD_REQUEST)
         else:
-            return Response({"status": "fail", "message": request.POST.get('message')}, status=status.HTTP_406_NOT_ACCEPTABLE)
+            return Response({"status": "fail", "message": 'The data of form is incorrect'}, status=status.HTTP_400_BAD_REQUEST)

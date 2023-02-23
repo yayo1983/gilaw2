@@ -4,33 +4,37 @@ import { Panel } from "primereact/panel";
 import { Button } from "primereact/button";
 import { Message } from "primereact/message";
 import { Dropdown } from "primereact/dropdown";
-import React, { useRef } from "react";
+import React, { useState, useRef } from "react";
 import { InputTextarea } from "primereact/inputtextarea";
 import { useSelector, useDispatch } from "react-redux";
-import { notificationActions } from '../../store/notification';
+
 
 const SubmissionMessage = () => {
   const dispatch = useDispatch();
-  const category = useSelector((state) =>state.notificationr.category);
-  const messageNotification = useSelector((state) =>state.notificationr.messageNotification);
-  const errorCategory = useSelector((state) =>state.notificationr.errorCategory);
-  const errorMessage = useSelector((state) =>state.notificationr.errorMessage);
+  const category2 = useSelector((state) =>state.category);
+  const message2 = useSelector((state) =>state.message);
+  const errorCategory2 = useSelector((state) =>state.errorCategory);
+  const errorMessage2 = useSelector((state) =>state.errorMessage);
   const toast = useRef(null);
+  const [category, setCategory] = useState(null);
+  const [message, setMessage] = useState("");
+  const [errorCategory, setErrorCategory] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(false);
   const categories = [
     { name: "Sports", code: "Sports" },
     { name: "Finance", code: "Finance" },
     { name: "Movies", code: "Movies" },
   ];
 
-  const setCategory = (value) =>{
-    dispatch(notificationActions.setCategory(value));
+  const clearForm = (message) => {
+    setCategory("");
+    setMessage("");
+    setErrorMessage(false);
+    setErrorCategory(false);
+    showToast("success", "Success", message);
   };
 
-  const setMessage = (value) =>{
-    dispatch(notificationActions.setMessage(value));
-  };
-
-    const showToast = (severity, summary, detail) => {
+  const showToast = (severity, summary, detail) => {
     toast.current.show({
       severity: severity,
       summary: summary,
@@ -47,37 +51,35 @@ const SubmissionMessage = () => {
   };
 
   const validateMessageInput = () => {
-    if (messageNotification === null || messageNotification === "") {
+    if (message === null || message === "") {
       return false;
     }
     return true;
   };
 
   const sendMessage = async () => {
-    console.log(category, messageNotification)
     try {
-      dispatch(notificationActions.setErrorCategory(false));
-      dispatch(notificationActions.setErrorMessage(false));
+      setErrorCategory(false);
+      setErrorMessage(false);
       if (validateCategoryInput() && validateMessageInput()) {
         let data = {
           category: category.code,
-          message: messageNotification,
+          message: message,
         };
         let response = await post("api/message/submission", data);
         response = JSON.stringify(response);
         if (response.status === 'fail') {
           showToast("error", "Error", response.message);
         } else {
-          dispatch(notificationActions.clearForm());
-          showToast("success", "Success", "The message has been sent successfully");
+          clearForm("The message has been sent successfully");
         }
       } else {
         if (!validateCategoryInput()) {
-          dispatch(notificationActions.setErrorCategory(true));
+          setErrorCategory(true);
           showToast("error", "Error", "The category input need selected");
         }
         if (!validateMessageInput()) {
-          dispatch(notificationActions.setErrorMessage(true));
+          setErrorMessage(true);
           showToast(
             "error",
             "Error",
@@ -136,7 +138,7 @@ const SubmissionMessage = () => {
                   rows={5}
                   cols={30}
                   required
-                  value={messageNotification}
+                  value={message}
                   placeholder="Message"
                   tooltip="Put the message"
                   className={classErrorMessage}
